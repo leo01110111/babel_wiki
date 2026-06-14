@@ -1,0 +1,86 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd" version="0.11" xml:lang="en">
+  <siteinfo>
+    <sitename>CMU -- HPC Wiki</sitename>
+    <dbname>mediawiki_2025</dbname>
+    <base>https://wiki.babel.cs.cmu.edu/index.php/Main_Page</base>
+    <generator>MediaWiki 1.44.0</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Project</namespace>
+      <namespace key="5" case="first-letter">Project talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="250" case="first-letter">Page</namespace>
+      <namespace key="251" case="first-letter">Page talk</namespace>
+      <namespace key="252" case="first-letter">Index</namespace>
+      <namespace key="253" case="first-letter">Index talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>FLAME</title>
+    <ns>0</ns>
+    <id>54</id>
+    <revision>
+      <id>309</id>
+      <timestamp>2024-07-07T13:20:21Z</timestamp>
+      <contributor>
+        <ip>174.181.5.47</ip>
+      </contributor>
+      <comment>Created page with "== Multi-node Training == === Launch Script === Here's an example of a launch script to start a multi-node training job with three H100 nodes using deepspeed:  #!/bin/bash  #SBATCH --job-name=flame  #SBATCH --output=flame.out  #SBATCH --error=flame.err  #SBATCH --partition=flame  #SBATCH --nodes=3  #SBATCH --ntasks-per-node=1  #SBATCH --cpus-per-task=12  #SBATCH --mem=2000G  #SBATCH --gres=gpu:H100:8  #SBATCH --time=2-00:00:00  srun --jobid $SLURM_JOB_ID bash -c 'source..."</comment>
+      <origin>309</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="2637" sha1="iwli5i2gg0yxjpibz4rt8csb7kpda9q" xml:space="preserve">== Multi-node Training ==
+=== Launch Script ===
+Here's an example of a launch script to start a multi-node training job with three H100 nodes using deepspeed:
+ #!/bin/bash
+ #SBATCH --job-name=flame
+ #SBATCH --output=flame.out
+ #SBATCH --error=flame.err
+ #SBATCH --partition=flame
+ #SBATCH --nodes=3
+ #SBATCH --ntasks-per-node=1
+ #SBATCH --cpus-per-task=12
+ #SBATCH --mem=2000G
+ #SBATCH --gres=gpu:H100:8
+ #SBATCH --time=2-00:00:00
+ srun --jobid $SLURM_JOB_ID bash -c 'source ~/.bashrc &amp;&amp; conda activate &lt;your conda env&gt; (optional: &amp;&amp; WANDB__SERVICE_WAIT=500 WANDB_PROJECT=&lt;wandb project&gt; WANDB_ENTITY=&lt;wandb entity&gt; WANDB_NAME=&lt;wandb name&gt;) python -u -m torch.distributed.run \
+ --nproc_per_node 8 (number of gpus per node) \
+ --nnodes 3 (number of nodes) \
+ --rdzv_endpoint flame-10-7:6000 (master node and port) \
+ --rdzv_backend c10d \
+ --max_restarts 0 \
+ --tee 3 \
+ --node_rank $SLURM_PROCID \
+ (Following is the command to launch training, you may have your own command. The simple example below uses Llamafactory)
+ LLaMA-Factory/src/train_bash.py     --deepspeed ds_config_3.json     --stage sft     --model_name_or_path &lt;model path&gt;     --do_train     --dataset &lt;dataset&gt;     --train_size &lt;train size&gt;   --dataset_dir &lt;dataset directory&gt;  --template llama2     --finetuning_type full     --output_dir &lt;output directory&gt;    --per_device_train_batch_size &lt;per device train batch size&gt;     --per_device_eval_batch_size &lt;per device eval batch size&gt;    --gradient_accumulation_steps &lt;gradient accumulation step&gt;     --gradient_checkpointing True     --lr_scheduler_type cosine     --evaluation_strategy "steps"     --save_strategy "steps"     --save_steps 500     --logging_steps "30"     --save_total_limit &lt;save total limit&gt;     --preprocessing_num_workers 16     --learning_rate &lt;lr&gt;     --weight_decay &lt;weight decay&gt;     --warmup_ratio &lt;warmup ratio&gt;     --num_train_epochs &lt;epochs&gt;     --plot_loss     --bf16 True     --cutoff_len &lt;cutoff length&gt;    --flash_attn True   --report_to "wandb"  --seed &lt;seed&gt;'
+ &gt; output.txt 2&gt;&amp;1
+
+Hostfile (create a file name “hostfile” with the following content)
+ flame-10-7 slots=8
+ flame-10-15 slots=8
+ flame-10-23 slots=8
+
+=== Potential Errors and Fixes ===
+* To debug, first set NCCL logging to INFO: export NCCL_DEBUG=INFO
+
+* ERROR ibv_create_cq(cqe=4096) failed: Cannot allocate memory
+** This error occurs when max locked memory is not sufficient. You can check how much max locked memory you have by running ulimit -a. On Babel, the login node has max locked memory = 64 on login node and max locked memory = unlimited on compute node. So to avoid this problem, run from a compute node.</text>
+      <sha1>iwli5i2gg0yxjpibz4rt8csb7kpda9q</sha1>
+    </revision>
+  </page>
+</mediawiki>

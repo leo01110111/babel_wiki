@@ -1,0 +1,86 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd" version="0.11" xml:lang="en">
+  <siteinfo>
+    <sitename>CMU -- HPC Wiki</sitename>
+    <dbname>mediawiki_2025</dbname>
+    <base>https://wiki.babel.cs.cmu.edu/index.php/Main_Page</base>
+    <generator>MediaWiki 1.44.0</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Project</namespace>
+      <namespace key="5" case="first-letter">Project talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="250" case="first-letter">Page</namespace>
+      <namespace key="251" case="first-letter">Page talk</namespace>
+      <namespace key="252" case="first-letter">Index</namespace>
+      <namespace key="253" case="first-letter">Index talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Ganglia</title>
+    <ns>0</ns>
+    <id>8</id>
+    <revision>
+      <id>329</id>
+      <parentid>190</parentid>
+      <timestamp>2024-11-01T17:40:34Z</timestamp>
+      <contributor>
+        <ip>172.31.75.97</ip>
+      </contributor>
+      <comment>/* Features */  - fix formatting</comment>
+      <origin>329</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="2715" sha1="jqo8iw2pnpi4lgkfvokqoy663xb81b1" xml:space="preserve">[[Category:Monitoring]]
+[[Category:Web-Based Monitoring]]
+
+# [http://babel-cluster.lti.cs.cmu.edu/ganglia/?r=hour&amp;cs=&amp;ce=&amp;c=babel-cluster.lti.cs.cmu.edu&amp;h=&amp;tab=m&amp;vn=&amp;hide-hf=false&amp;m=load_one&amp;sh=2&amp;z=small&amp;hc=0&amp;host_regex=&amp;max_graphs=0&amp;s=by+na
+me Ganglia] for examining per node load and I/O utilization.
+
+[https://ganglia.sourceforge.net| Ganglia] is an open-source scalable distributed monitoring system for high-performance computing systems such as clusters and Grids. It is carefully engineered to achieve very low per-node overheads and high concurrency. Ganglia is currently in use on thousands of clusters around the world and can scale to handle clusters with several thousand of nodes.
+
+== Features ==
+
+Ganglia offers several key features that make it a powerful tool for monitoring HPC status:
+
+'''Scalability''': Ganglia is designed to handle large-scale deployments with thousands of compute nodes. It utilizes a hierarchical architecture where monitoring data is aggregated at different levels, allowing for efficient management of monitoring data across distributed clusters.
+
+'''Real-time Monitoring''': Ganglia provides real-time monitoring capabilities, allowing administrators and users to track the performance of HPC systems as they execute computationally intensive tasks. It collects a wide range of metrics including CPU utilization, memory usage, network traffic, and disk I/O, among others.
+
+'''Visualization''': Ganglia offers a web-based interface that provides visual representations of the collected metrics. These visualizations include graphs, charts, and heatmaps, enabling users to quickly identify performance bottlenecks, trends, and anomalies in the system.
+
+'''Alerting and Notification''': Ganglia supports configurable alerts and notifications based on predefined thresholds. Users can set up custom alerts to be triggered when certain metrics exceed or fall below specified values. This feature helps ensure that administrators are promptly notified of any critical issues or performance degradation.
+
+'''Extensibility''': Ganglia is highly extensible, allowing users to integrate additional monitoring modules or customize existing ones to meet specific monitoring requirements. This flexibility enables seamless integration with various HPC systems and architectures.
+
+
+== Usage ==
+
+== Links ==
+* http://atlas.multicomp.cs.cmu.edu/ganglia/
+* http://babel-cluster.lti.cs.cmu.edu/ganglia/
+* http://boston-cluster.lti.cs.cmu.edu/ganglia/
+* http://tir.lti.cs.cmu.edu/ganglia/
+* https://workhorse.lti.cmu.edu/ganglia [bad cert]
+
+== See Also ==
+
+* [http://ganglia.info/ Ganglia Official Website]: Official website of Ganglia with documentation, downloads, and community resources.</text>
+      <sha1>jqo8iw2pnpi4lgkfvokqoy663xb81b1</sha1>
+    </revision>
+  </page>
+</mediawiki>

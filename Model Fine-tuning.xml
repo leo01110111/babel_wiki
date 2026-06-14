@@ -1,0 +1,65 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd" version="0.11" xml:lang="en">
+  <siteinfo>
+    <sitename>CMU -- HPC Wiki</sitename>
+    <dbname>mediawiki_2025</dbname>
+    <base>https://wiki.babel.cs.cmu.edu/index.php/Main_Page</base>
+    <generator>MediaWiki 1.44.0</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Project</namespace>
+      <namespace key="5" case="first-letter">Project talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="250" case="first-letter">Page</namespace>
+      <namespace key="251" case="first-letter">Page talk</namespace>
+      <namespace key="252" case="first-letter">Index</namespace>
+      <namespace key="253" case="first-letter">Index talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Model Fine-tuning</title>
+    <ns>0</ns>
+    <id>41</id>
+    <revision>
+      <id>171</id>
+      <parentid>170</parentid>
+      <timestamp>2023-08-04T05:41:51Z</timestamp>
+      <contributor>
+        <username>Yifengw2</username>
+        <id>4</id>
+      </contributor>
+      <comment>adding fine tune resources and time estimation suggestions</comment>
+      <origin>171</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="776" sha1="g4jg4qf2qw6nn3rxto6jdsxblmmofbi" xml:space="preserve">===Fine-tune Resources===
+
+* [https://huggingface.co/docs/transformers/training Fine-tune a pre-trained model on HuggingFace]
+* [https://platform.openai.com/docs/guides/fine-tuning Fine-tune documentation on OpenAI]
+*[https://huggingface.co/blog/stackllama#stackllama-a-hands-on-guide-to-train-llama-with-rlhf StackLLaMA: A hands-on guide to train LLaMA with RLHF]
+*Parameter-Efficient Fine-Tuning (PEFT) -- An efficient fine-tuning approach to reduce computational resources and time cost
+**[https://huggingface.co/blog/peft Blog]
+**[https://github.com/huggingface/peft Github]
+
+=== Fine-tune time estimation (Based on previous Hackathon feedback) ===
+
+* Fine-tuning ESM-2 model with 35M parameter takes ~4.5 hours
+* Fine-tuning ESM-2 model with 8M parameter takes ~2.5 hours</text>
+      <sha1>g4jg4qf2qw6nn3rxto6jdsxblmmofbi</sha1>
+    </revision>
+  </page>
+</mediawiki>

@@ -1,0 +1,72 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd" version="0.11" xml:lang="en">
+  <siteinfo>
+    <sitename>CMU -- HPC Wiki</sitename>
+    <dbname>mediawiki_2025</dbname>
+    <base>https://wiki.babel.cs.cmu.edu/index.php/Main_Page</base>
+    <generator>MediaWiki 1.44.0</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Project</namespace>
+      <namespace key="5" case="first-letter">Project talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="250" case="first-letter">Page</namespace>
+      <namespace key="251" case="first-letter">Page talk</namespace>
+      <namespace key="252" case="first-letter">Index</namespace>
+      <namespace key="253" case="first-letter">Index talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Slurm Job Arrays</title>
+    <ns>0</ns>
+    <id>36</id>
+    <revision>
+      <id>288</id>
+      <parentid>126</parentid>
+      <timestamp>2024-03-15T02:06:06Z</timestamp>
+      <contributor>
+        <ip>74.98.250.13</ip>
+      </contributor>
+      <comment>/* Job Array Scheduling */</comment>
+      <origin>288</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="1383" sha1="op9kbo1uo9n9tx8oxgechret5rpzr4p" xml:space="preserve">[[Category:Slurm]]
+[[Category:Jobs]]
+
+== Job Array Scheduling ==
+[https://slurm.schedmd.com/job_array.html Job Array Scheduling] can be useful when you desire to run multiple jobs but want to use more than ''&lt;code&gt;N&lt;/code&gt;'' resources at a time. This is a way to tell slurm to setup a queue for the jobs with only 10 being active at a time ?
+
+  #!/bin/bash
+  #SBATCH --array=1-50%10
+  #SBATCH --max-concurrent=10
+  
+  #SBATCH [other options]
+  
+  # Your job commands here
+
+Explanation of the options:
+
+&lt;code&gt;--array=1-50%10&lt;/code&gt;: This option defines the job array range from 1 to 50. The %10 specifies that a maximum of 10 tasks from the array can be running concurrently at any one time. Slurm will automatically manage the scheduling and execution of the array tasks based on the specified limit.
+
+&lt;code&gt;--max-concurrent=10&lt;/code&gt;: This option sets the maximum number of concurrently running tasks within the job array to 10. Slurm will ensure that only 10 tasks are active simultaneously, automatically scheduling the remaining tasks as earlier tasks complete.
+
+By using the --array option with the specified range and the %10 syntax, combined with the --max-concurrent option, you can control the number of tasks running concurrently within the job array. Slurm will handle the scheduling and ensure that only the specified maximum number of tasks are active at any given time.</text>
+      <sha1>op9kbo1uo9n9tx8oxgechret5rpzr4p</sha1>
+    </revision>
+  </page>
+</mediawiki>

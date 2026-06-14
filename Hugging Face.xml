@@ -1,0 +1,151 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd" version="0.11" xml:lang="en">
+  <siteinfo>
+    <sitename>CMU -- HPC Wiki</sitename>
+    <dbname>mediawiki_2025</dbname>
+    <base>https://wiki.babel.cs.cmu.edu/index.php/Main_Page</base>
+    <generator>MediaWiki 1.44.0</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Project</namespace>
+      <namespace key="5" case="first-letter">Project talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="250" case="first-letter">Page</namespace>
+      <namespace key="251" case="first-letter">Page talk</namespace>
+      <namespace key="252" case="first-letter">Index</namespace>
+      <namespace key="253" case="first-letter">Index talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Hugging Face</title>
+    <ns>0</ns>
+    <id>60</id>
+    <revision>
+      <id>423</id>
+      <parentid>418</parentid>
+      <timestamp>2025-02-21T17:48:32Z</timestamp>
+      <contributor>
+        <ip>74.98.250.13</ip>
+      </contributor>
+      <comment>/* Permissions */</comment>
+      <origin>423</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="5720" sha1="5l240nszvq3tltdhmfiidc58glba4bn" xml:space="preserve">__NOTOC__
+= Hugging Face Cache Configuration on Babel HPC =
+
+This page outlines how to configure and use Hugging Face (HF) models and datasets in the Babel HPC Environment, leveraging shared and personal storage options to optimize resource use.
+__TOC__
+
+== Overview ==
+Babel provides a shared directory for Hugging Face models and datasets to prevent duplication across users. Additionally, personal storage is available for user-specific caches or larger data needs. Note that the &lt;code&gt;/data/user_data/&lt;username&gt;/&lt;/code&gt; directory is limited and only mounts on compute nodes.
+
+== Storage Locations ==
+The cluster offers the following storage paths for Hugging Face usage:
+
+* '''Shared HF Cache''': &lt;code&gt;/data/hf_cache/&lt;/code&gt;
+  * Base path for shared Hugging Face models and datasets.
+  * Accessible to all users in the &lt;code&gt;hpcgroup&lt;/code&gt; group.
+  * Use this for storing and accessing pre-downloaded models and datasets to avoid redundant downloads.
+* '''Personal $HOME''': &lt;code&gt;/home/&lt;username&gt;&lt;/code&gt;
+  * Mounted only on all nodes.
+  * Limited to 100 GB.
+  * Suitable for small, user-specific files (e.g., authentication tokens), but not for large caches or compute tasks.
+* '''Personal Data Space''': &lt;code&gt;/data/user_data/&lt;username&gt;&lt;/code&gt;
+  * Available on compute nodes only.
+  * Intended for larger user-specific cache needs or temporary files.
+See: [[Filesystem#Filesystem_Layout|Filesystem Layout]]
+
+== Key Considerations ==
+* '''Login vs. Compute Nodes''': The &lt;code&gt;/home/&lt;username&gt;&lt;/code&gt; directory is only available on login nodes. All computation, including running Hugging Face jobs, must occur on compute nodes where &lt;code&gt;$HOME&lt;/code&gt; is not mounted.
+* '''Storage Limits''': Due to the 100 GB limit on &lt;code&gt;$HOME&lt;/code&gt;, avoid using it for large model/dataset caches. Use &lt;code&gt;/data/user_data/&lt;username&gt;&lt;/code&gt; instead for personal needs beyond tokens or small configs.
+* '''Other Datasets''': Note that &lt;code&gt;/data/datasets/&lt;/code&gt; contains other non-Hugging Face datasets; use &lt;code&gt;/data/hf_cache/&lt;/code&gt; specifically for HF resources (confirmed as the designated shared HF path).
+
+== Configuring Hugging Face ==
+To use the shared and personal storage effectively with Hugging Face libraries (&lt;code&gt;transformers&lt;/code&gt;, &lt;code&gt;datasets&lt;/code&gt;, &lt;code&gt;huggingface_hub&lt;/code&gt;), set the following environment variables:
+
+=== Recommended Setup ===
+For most users, configure your environment to use the shared HF cache for models/datasets and a personal directory for other files:
+
+  export HF_HOME=/data/user_data/&lt;username&gt;/.hf_cache
+  export HF_HUB_CACHE=/data/hf_cache/hub
+  export HF_DATASETS_CACHE=/data/hf_cache/datasets
+  export HF_HUB_OFFLINE=1  # Optional\
+
+* Replace &lt;code&gt;&lt;username&gt;&lt;/code&gt; with your actual username (e.g., &lt;code&gt;dvosler&lt;/code&gt; → &lt;code&gt;/data/user_data/dvosler/.hf_cache&lt;/code&gt;).
+* Add these lines to your &lt;code&gt;.bashrc&lt;/code&gt; on the login node or include them in your SLURM job scripts.
+
+=== Explanation of Variables ===
+* &lt;code&gt;HF_HOME&lt;/code&gt;: Base directory for all HF files (default: &lt;code&gt;~/.cache/huggingface&lt;/code&gt;). Set to a personal path to keep user-specific files separate.
+* &lt;code&gt;HF_HUB_CACHE&lt;/code&gt;: Directory for cached models from the Hugging Face Hub.
+* &lt;code&gt;HF_DATASETS_CACHE&lt;/code&gt;: Directory for cached datasets.
+* &lt;code&gt;HF_HUB_OFFLINE&lt;/code&gt;: Set to &lt;code&gt;1&lt;/code&gt; to force offline mode, relying only on cached files.
+
+=== Example SLURM Script ===
+Below is an example SLURM script to run a Hugging Face job on a compute node:
+
+  #!/bin/bash
+  #SBATCH --job-name=hf_test
+  #SBATCH --output=/home/%u/logs/sbatch/output_%A_%a.out
+  #SBATCH --error=/home/%u/logs/sbatch/error_%A_%a.err
+  #SBATCH --partition=&lt;partition_name&gt;
+  #SBATCH --time=1-10:05:00
+  #SBATCH --ntasks=2
+  #SBATCH --mem=69G
+  
+  # Set Hugging Face environment variables
+  export HF_HOME=/data/user_data/$USER/.hf_cache
+  export HF_HUB_CACHE=/data/hf_cache/hub
+  export HF_DATASETS_CACHE=/data/hf_cache/datasets
+  export HF_HUB_OFFLINE=1
+  
+  # activate python env
+  eval "$(conda shell.bash hook)"
+  conda activate hf_stuff
+  
+  # Run your script
+  python my_hf_script.py
+
+== Usage Guidelines ==
+* '''Shared Cache''': The first user to download a model/dataset to &lt;code&gt;/data/hf_cache/&lt;/code&gt; caches it for everyone. Subsequent users reuse it automatically if &lt;code&gt;HF_HUB_CACHE&lt;/code&gt; and &lt;code&gt;HF_DATASETS_CACHE&lt;/code&gt; are set correctly.
+* '''Personal Cache''': Use &lt;code&gt;/data/user_data/&lt;username&gt;&lt;/code&gt; for larger personal files (e.g., custom model checkpoints) or if you need isolation from other users.
+* '''Pre-Downloading Models''': Admins or users can pre-populate the shared cache:
+
+  from huggingface_hub import snapshot_download
+  snapshot_download(repo_id="bert-base-uncased", cache_dir="/data/hf_cache/hub")
+
+== Permissions ==
+* The &lt;code&gt;/data/hf_cache/&lt;/code&gt; directory uses ACLs with permissions 770 (dirs) and 660 (files), owned by the initial user and the &lt;code&gt;hpcgroup&lt;/code&gt; group.
+* Ensure you’re in the &lt;code&gt;hpcgroup&lt;/code&gt; group (&lt;code&gt;groups&lt;/code&gt; command) to access and write to the shared directory.
+
+== Troubleshooting ==
+* '''Model Not Found''': Verify your &lt;code&gt;HF_HUB_CACHE&lt;/code&gt; path and ensure the model is cached or that you have internet access on the login node to download it.
+* '''Permission Denied''': Check group membership and directory permissions with &lt;code&gt;ls -l /data/hf_cache&lt;/code&gt;.
+* '''Quota Issues''': If &lt;code&gt;$HOME&lt;/code&gt; fills up, move cache to &lt;code&gt;/data/user_data/&lt;username&gt;&lt;/code&gt;.
+
+== See Also ==
+* [[Model_Fine-tuning]]
+* [[Slurm|SLURM Usage Guide]]
+* [[Filesystem|Storage Policies]]
+* [https://huggingface.co/docs/hub/index|Hugging Face Hub Documentation]
+
+[[Category:HPC Documentation]]
+[[Category:Hugging Face]]</text>
+      <sha1>5l240nszvq3tltdhmfiidc58glba4bn</sha1>
+    </revision>
+  </page>
+</mediawiki>

@@ -1,0 +1,81 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd" version="0.11" xml:lang="en">
+  <siteinfo>
+    <sitename>CMU -- HPC Wiki</sitename>
+    <dbname>mediawiki_2025</dbname>
+    <base>https://wiki.babel.cs.cmu.edu/index.php/Main_Page</base>
+    <generator>MediaWiki 1.44.0</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Project</namespace>
+      <namespace key="5" case="first-letter">Project talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="250" case="first-letter">Page</namespace>
+      <namespace key="251" case="first-letter">Page talk</namespace>
+      <namespace key="252" case="first-letter">Index</namespace>
+      <namespace key="253" case="first-letter">Index talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Efficiency</title>
+    <ns>0</ns>
+    <id>40</id>
+    <revision>
+      <id>187</id>
+      <parentid>157</parentid>
+      <timestamp>2023-08-23T14:43:26Z</timestamp>
+      <contributor>
+        <ip>71.112.187.138</ip>
+      </contributor>
+      <origin>187</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="2565" sha1="tvfxcutdn1om27hhk6ssx9l8exq0up9" xml:space="preserve">[[Category:Tips]]
+[[Category:Efficiency]]
+[[Category:GPU]]
+
+== GPU power limits vs. efficiency ==
+
+Over the last decade or so, there has been several studies regarding setting arbitrary limits on GPU power consumption (possible via nvidia-smi) in order to increase the amount of performance per watt.
+
+The last 5-10% of power fed to a GPU has significantly diminishing returns compared to the first 90%; this [https://www.pugetsystems.com/labs/hpc/nvidia-gpu-power-limit-vs-performance-2296/#GPU_Power_Scaling_vs_Performance_Results set of graphs for A4000s and RTX 3090s] shows this general trend.
+
+As an example, [https://www.pugetsystems.com/labs/hpc/quad-rtx3090-gpu-power-limiting-with-systemd-and-nvidia-smi-1983/ reducing the power limit from 366W to 270~280W on an RTX3090 only loses approx. 5% performance].
+
+This effect is '''more significant on consumer-oriented cards''' (RTX 3090, 4090 etc) due to datacenter cards such as A4000s, A5000s often already being built upon [https://www.techspot.com/review/2342-nvidia-rtx-a4000/#:~:text=Earlier%20this%20year%20Nvidia%20dropped,192%20TAUs%20and%2096%20ROPs. consumer cards that have been power-limited]. For example, the RTX A4000 is a low-power version of an RTX 3070.
+
+Limiting maximum GPU power and using the additional power overhead to add another GPU is one potential option to increase performance where power-limited, or simply to significantly reduce noise/heat without impacting performance.
+
+== Standard power limits in the Wean / Gates Machine rooms (as of 2023-07-20) ==
+
+=== Wean Machine  Room (3611) ===
+Our current policy on how many GPUs can go in a rack in the Wean datacenter is '''48''' GPUs per 208V 60A PDU. (The real max is 48A, or 17293W sustained, due to 80% rule) 
+
+This makes the general rule of thumb to be around 1 GPU per 360W of power. 
+
+Realistically speaking, machines generally don't pull anywhere near this amount as it requires them to be running full blast, however the reason for this limit is also for reducing the presence of large hotspots in the room (and considering the total power consumption of the room, which is nearing its limit).  
+
+=== Gates Machine Room (3301) ===
+The Gates computer room should not have any GPU machines installed in it at this time, due to the entire machine room running on battery backup which has a limited capacity.
+
+This may change in the coming years if new power is added to the Gates machine room.
+
+For detailed questions, please contact Kirk Berthold (Computing Operations manager) and/or Junya Inohara (Datacenter Tech Lead).</text>
+      <sha1>tvfxcutdn1om27hhk6ssx9l8exq0up9</sha1>
+    </revision>
+  </page>
+</mediawiki>

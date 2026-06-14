@@ -1,0 +1,249 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd" version="0.11" xml:lang="en">
+  <siteinfo>
+    <sitename>CMU -- HPC Wiki</sitename>
+    <dbname>mediawiki_2025</dbname>
+    <base>https://wiki.babel.cs.cmu.edu/index.php/Main_Page</base>
+    <generator>MediaWiki 1.44.0</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Project</namespace>
+      <namespace key="5" case="first-letter">Project talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="250" case="first-letter">Page</namespace>
+      <namespace key="251" case="first-letter">Page talk</namespace>
+      <namespace key="252" case="first-letter">Index</namespace>
+      <namespace key="253" case="first-letter">Index talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>BABEL</title>
+    <ns>0</ns>
+    <id>11</id>
+    <revision>
+      <id>547</id>
+      <parentid>546</parentid>
+      <timestamp>2026-01-15T19:46:54Z</timestamp>
+      <contributor>
+        <username>Zkimes</username>
+        <id>32</id>
+      </contributor>
+      <minor/>
+      <comment>/* Additional Resources: */  tips and trick link</comment>
+      <origin>547</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="8859" sha1="05f4xfgd1jrim1qmg73bti1wpuil9wk" xml:space="preserve">[[Category:Babel]]
+[[Category:Clusters]]
+[[Category:LTI]]
+[[Category:Datasets]]
+= Welcome to the Babel HPC Cluster! =
+Babel is a high-performance computing (HPC) cluster designed to deliver advanced computational capabilities for research and scientific tasks. This wiki page offers details on the cluster’s architecture and specifications, alongside resources to help you get started. To make the most of Babel’s high-performance computing resources, please review our documentation for job submission guidelines, available software, and best practices. If you have questions, don’t hesitate to contact our support team or explore the user forums.
+
+Happy computing! 
+
+__TOC__
+== Getting Started: ==
+* '''[https://forms.gle/eptScAsDudyxF8956 Account Requests]:''' Use this form to request an account or for requesting changes to an existing account.
+* '''[[BABEL#Getting_Help|Slack:]]''' We have a healthy and active Slack channel, #babel-babble, where you can ask questions, share insights, and stay updated on system announcements.
+* '''[[#How to Login to the Cluster|Login:]]''' Securely connect to the cluster.
+* '''[[#Filesystem|Filesystem:]]''' Understand where to store your data, models, and personal directories.
+* '''[[#Submitting Jobs|Submitting Jobs:]]''' How to schedule and manage your computational tasks using the resource scheduler.
+* '''[[#Getting Help|Getting Help:]]''' How to seek access to resources, request account changes requests, and general help guildlines.
+
+== How to Login to the Cluster ==
+From your [[SSH]] client, use the command:
+  ssh &lt;username&gt;@login.babel.cs.cmu.edu
+
+* '''Credentials:''' Use your Andrew ID and password; SCS credentials have no power here.
+
+There are 4 login nodes in a round-robin DNS setup. You'll be directed to one of these nodes randomly upon connection. If you land on a node other than where your tmux session is active (e.g., you're on login3 but your session is on login2), you can SSH directly to the correct node:
+  ssh login2
+
+More about [[SSH]]
+
+See also: [[Login_Node_Resource_Limits]]
+
+== Shell Configuration ==
+
+If you would like to set or change your shell on all nodes of the cluster, including login and compute nodes, please submit your request via the [https://forms.gle/eptScAsDudyxF8956 Change Request Form].
+
+If you require a different shell than you find in the drop=-down list, please add it to the notes and we'll do our best to accomodate.
+
+==Filesystem==
+
+=== Layout ===
+Each user is provisioned with:
+&lt;pre&gt;
+          /home/&lt;username&gt;: 100GB capacity; mounted on all nodes
+/data/user_data/&lt;username&gt;: 500GB capacity; available only on compute nodes with active jobs
+&lt;/pre&gt;
+
+Additional paths available on each compute node:
+&lt;pre&gt;
+      /data/datasets: Community datasets.
+        /data/models: Community models.
+            /scratch: Local SSD or NVMe storgae; when greater than 65% full data older than 28 days is automatically expunged.
+/compute/&lt;node_name&gt;: Each nodes /scratch dir is exported to every other node.
+&lt;/pre&gt;
+
+'''Note:'''  Home, user_data, datasets, and models are network data directories, mounted via [[Filesystem#Automount_via_AutoFS|AutoFS]] which is an “on-demand” filesystem. You may need to stat the full path to the trigger the mount mechanism. See Filesystem - Automount for more details.
+
+For more details see: [[Filesystem#Filesystem Layout]].
+
+=== Automount via AutoFS ===
+Non-OS data directories are mounted with AutoFS, which is an "on-demand" filesystem. This means that if you do not put a full path, the data directory will not mount and the higher level directory may appear empty. For a more detailed explanation with examples, please read the Filesystem - Automount wiki entry located at [[Filesystem#Automount via AutoFS|AutoFS]].
+
+Information about login nodes can be found here: [[Login_Node_Resource_Limits|Login Node Resource Limits]]
+
+==Submitting Jobs==
+=== Resource Scheduler ===
+[[Slurm]] 24.05.1 is used for job scheduling.
+
+There are '''2''' main ways to request resources:
+
+* '''Interactive:''' Use &lt;code&gt;srun&lt;/code&gt; for jobs where you need direct interaction with the running task, often after using `salloc` for interactive sessions.
+* '''Batch:''' Use &lt;code&gt;sbatch&lt;/code&gt; for jobs that can run without user interaction, typically for longer or resource-intensive tasks, submitting them to the Slurm queue for scheduled execution.
+Here's an overview of our main partitions:
+
+* '''debug'''
+&lt;pre&gt;
+Purpose: Quick, short jobs for testing and debugging.
+      Max Time: 12 hours
+  Default Time: 1 hour
+      Max GPUs: 2
+      Max CPUs: 64
+           QoS: debug_qos
+   Limitations: No array jobs
+&lt;/pre&gt;
+
+* '''general'''
+&lt;pre&gt;
+Purpose: General, standard computing tasks.
+      Max Time: 2 days
+  Default Time: 6 hours
+      Max GPUs: 8
+      Max CPUs: 128
+           QoS: normal
+   Limitations: No interactive sessions | sbatch only
+&lt;/pre&gt;
+
+* '''preempt'''
+&lt;pre&gt;
+Purpose: Long-running jobs that can be preempted for higher priority tasks.
+      Max Time: 31 days
+  Default Time: 3 hours
+      Max GPUs: 24
+      Max CPUs: 256
+           QoS: preempt_qos
+   Limitations: No interactive sessions | sbatch only
+&lt;/pre&gt;
+
+* '''cpu'''
+&lt;pre&gt;
+Purpose: CPU-only computing tasks.
+      Max Time: 2 days
+  Default Time: 6 hours
+      Max GPUs: 0
+      Max CPUs: 128
+           QoS: cpu_qos
+   Limitations: No interactive sessions | sbatch only
+&lt;/pre&gt;
+
+* '''array'''
+&lt;pre&gt;
+Purpose: Array jobs for parallel task execution.
+      Max Time: 12 days
+  Default Time: 6 hours
+      Max GPUs: 8
+      Max CPUs: 256
+           QoS: array_qos
+   Limitations: No interactive sessions | sbatch only
+&lt;/pre&gt;
+
+=== Partition Table ===
+
+&lt;pre&gt;
+      Name    MaxTRESPU MaxJobsPU MaxSubmitPU  MaxTRES     MinTRES                Preempt
+----------- ------------ --------- ----------- -------- ----------- ----------------------
+     normal   gres/gpu=8        10          50  cpu=128  gres/gpu=1  array_qos,preempt_qos
+preempt_qos  gres/gpu=24        24         100  cpu=256  gres/gpu=1
+  debug_qos   gres/gpu=2        10          12   cpu=64                        preempt_qos
+    cpu_qos   gres/gpu=0        10          50  cpu=128                        preempt_qos
+  array_qos   gres/gpu=8       100       10000  cpu=256                        preempt_qos
+&lt;/pre&gt;
+
+=== Viewing Partition Details ===
+
+To explore the full configuration of all partitions, use the &lt;code&gt;scontrol&lt;/code&gt; command:
+
+* &lt;code&gt;scontrol show part&lt;/code&gt;: Displays detailed information about all available partitions.
+
+For specifics on a particular partition, include its name:
+
+* &lt;code&gt;scontrol show part &lt;partition_name&gt;&lt;/code&gt;: Shows detailed settings for the specified partition (e.g., &lt;code&gt;scontrol show part debug&lt;/code&gt;).
+
+For detailed information on how to use these partitions, see our documentation [[Slurm|here]].
+
+=== Viewing QoS Details ===
+Each partition is associated with a specific QoS (e.g., &lt;code&gt;debug_qos&lt;/code&gt;, &lt;code&gt;normal&lt;/code&gt;, &lt;code&gt;preempt_qos&lt;/code&gt;), which defines rules such as maximum resource usage and preemption behavior.
+
+To view QoS information associated with your user account:
+  
+  sacctmgr show user $USER withassoc format=User,Account,DefaultQOS,QOS%4
+
+== Getting Help ==
+We focus on providing robust computing infrastructure rather than individual software support. 
+
+* [https://lti-at-cmu.slack.com/archives/C05HRL547MX Slack] is our first line of support. Post issues in the '''#babel-babble''' channel; to get the admins' attention, tag us with @help-babel. If privacy is needed, send a direct message (DM).
+* [https://forms.gle/eptScAsDudyxF8956 User Change Request]: Use this form for requesting changes to your account, including additional groups, changing your default shell, and requesting increases in disk capacity.
+
+==== What We Won't Do ====
+* IDE Support: [[VSCode]], PyCharm, Jupyter Notebook, et cetera.
+* Troubleshoot / Debug Code: Your code is your own.
+
+If you think there may be an issue with our environment that is preventing your code from running let us know.
+
+=== Additional Resources: ===
+
+[[Tips &amp; Tricks|Tips and Tricks:]] Configs and best practices from our community.
+
+Request Forms: 
+* [https://forms.gle/eptScAsDudyxF8956 |User Change Request:] Use this form to request changes to your account; additional groups, default shell, and increases in disk capacity.
+* [link|Dataset Request:]
+
+[[Environment Modules|Environment Modules:]]  Modules to modify your user environment
+
+[[Tips_%26_Tricks|Tips and Tricks]]
+
+[[Hugging_Face|Hugging Face Cache Configuration]]
+
+=== FAQ ===
+* [[FAQ|FAQ]]
+
+== Data Collection ==
+[[Cluster-Wide Lightweight Instrumentation Profiler|Cluster-Wide Lightweight Instrumentation Profiler]]
+
+
+== Upgrade History ==
+* Birth: '''2023-05-04 18:02:55.854769612 -0400'''
+* Hydra9: '''2024-10-15 16:35:37.128177207 -0400'''
+* Migration to MSA: '''2025-10-22 10:34:01.158642535 -0400'''</text>
+      <sha1>05f4xfgd1jrim1qmg73bti1wpuil9wk</sha1>
+    </revision>
+  </page>
+</mediawiki>

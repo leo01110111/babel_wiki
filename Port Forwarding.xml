@@ -1,0 +1,159 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd" version="0.11" xml:lang="en">
+  <siteinfo>
+    <sitename>CMU -- HPC Wiki</sitename>
+    <dbname>mediawiki_2025</dbname>
+    <base>https://wiki.babel.cs.cmu.edu/index.php/Main_Page</base>
+    <generator>MediaWiki 1.44.0</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Project</namespace>
+      <namespace key="5" case="first-letter">Project talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="250" case="first-letter">Page</namespace>
+      <namespace key="251" case="first-letter">Page talk</namespace>
+      <namespace key="252" case="first-letter">Index</namespace>
+      <namespace key="253" case="first-letter">Index talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Port Forwarding</title>
+    <ns>0</ns>
+    <id>64</id>
+    <revision>
+      <id>434</id>
+      <timestamp>2025-03-04T10:59:37Z</timestamp>
+      <contributor>
+        <ip>74.98.250.13</ip>
+      </contributor>
+      <comment>Created page with "__NOTOC__ This guide explains how to use SSH port forwarding to expose or access services from an HPC compute node behind our NAT setup. Our NAT server (the HPC head node) is accessible via &lt;code&gt;login1.babel.cs.cmu.edu&lt;/code&gt;, which acts as our login node with a fully configured SSH daemon. You don’t need admin rights—just your user account and SSH credentials.   __TOC__ == What You Need == * A running service on your compute node (e.g., a web server on port 8080) f..."</comment>
+      <origin>434</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="5158" sha1="bkcekbsb7x89bmy5icpouovonlbiokh" xml:space="preserve">__NOTOC__
+This guide explains how to use SSH port forwarding to expose or access services from an HPC compute node behind our NAT setup. Our NAT server (the HPC head node) is accessible via &lt;code&gt;login1.babel.cs.cmu.edu&lt;/code&gt;, which acts as our login node with a fully configured SSH daemon. You don’t need admin rights—just your user account and SSH credentials. 
+
+__TOC__
+== What You Need ==
+* A running service on your compute node (e.g., a web server on port 8080) for remote forwarding.
+* Your SSH credentials (username and either a password or SSH key) for &lt;code&gt;login1.babel.cs.cmu.edu&lt;/code&gt;.
+* A free port number on the login node (see [[#Choosing a Port|Choosing a Port]]).
+* For local or dynamic forwarding, know the external service or proxy needs.
+
+== Why Use Port Forwarding? ==
+Our compute nodes are behind a NAT (the HPC head node), so they don’t have public IPs. SSH port forwarding lets you:
+* '''Expose''' a local service to the web (remote forwarding).
+* '''Access''' external services from your node (local forwarding).
+* '''Browse''' securely via a proxy (dynamic forwarding).
+
+== How It Works ==
+You run SSH commands from your compute node, connecting to &lt;code&gt;login1.babel.cs.cmu.edu&lt;/code&gt; (the login node). This node doubles as our NAT gateway, forwarding traffic between your node and the outside world. The setup is the same whether you’re exposing a service or pulling one in.
+
+== Remote Port Forwarding (Expose a Service) ==
+
+=== Steps ===
+1. '''Check Your Service''': Ensure it’s running on your node, e.g.:
+&lt;pre&gt;
+curl localhost:8080
+&lt;/pre&gt;
+2. '''Choose a Port''': Pick a free port on &lt;code&gt;login1.babel.cs.cmu.edu&lt;/code&gt; (e.g., 9000–9999).
+3. '''Run the Command''':
+&lt;pre&gt;
+ssh -R 9000:localhost:8080 yourusername@login1.babel.cs.cmu.edu
+&lt;/pre&gt;
+4. '''Keep It Alive''': Add &lt;code&gt;-o ServerAliveInterval=60&lt;/code&gt;:
+&lt;pre&gt;
+ssh -R 9000:localhost:8080 -o ServerAliveInterval=60 yourusername@login1.babel.cs.cmu.edu
+&lt;/pre&gt;
+5. '''Test It''': From outside, visit &lt;code&gt;http://login1.babel.cs.cmu.edu:9000&lt;/code&gt;.
+
+=== Example ===
+Expose a web server on port 8080:
+&lt;pre&gt;
+ssh -R 9500:localhost:8080 yourusername@login1.babel.cs.cmu.edu
+&lt;/pre&gt;
+Anyone can access it at &lt;code&gt;login1.babel.cs.cmu.edu:9500&lt;/code&gt;.
+
+== Local Port Forwarding (Access an External Service) ==
+
+=== When to Use ===
+Use local forwarding to bring an external service (e.g., a web API) into your compute node, as if it’s running locally.
+
+=== Steps ===
+1. Identify the external service (e.g., &lt;code&gt;api.example.com:80&lt;/code&gt;).
+2. Run this from your compute node:
+&lt;pre&gt;
+ssh -L localhost:8080:api.example.com:80 yourusername@login1.babel.cs.cmu.edu
+&lt;/pre&gt;
+3. Access it on your node at &lt;code&gt;localhost:8080&lt;/code&gt; (e.g., &lt;code&gt;curl localhost:8080&lt;/code&gt;).
+
+=== Example ===
+Pull a public web server into your node:
+&lt;pre&gt;
+ssh -L localhost:5000:www.google.com:80 yourusername@login1.babel.cs.cmu.edu
+&lt;/pre&gt;
+Now, &lt;code&gt;curl localhost:5000&lt;/code&gt; on your node shows Google’s homepage.
+
+== Dynamic Port Forwarding (SOCKS5 Proxy) ==
+
+=== When to Use ===
+Dynamic forwarding turns your SSH connection into a SOCKS5 proxy, letting you browse the web or access multiple services through &lt;code&gt;login1.babel.cs.cmu.edu&lt;/code&gt;.
+
+=== Steps ===
+1. Run this from your compute node:
+&lt;pre&gt;
+ssh -D 1080 yourusername@login1.babel.cs.cmu.edu
+&lt;/pre&gt;
+2. Configure your web browser to use a SOCKS5 proxy:
+   * Host: &lt;code&gt;localhost&lt;/code&gt;
+   * Port: &lt;code&gt;1080&lt;/code&gt;
+   * Type: SOCKS5
+   (In Firefox: Preferences &gt; Network Settings &gt; Manual Proxy Configuration.)
+3. Browse normally—traffic goes through the login node.
+
+=== Example ===
+Set up a proxy:
+&lt;pre&gt;
+ssh -D 1080 yourusername@login1.babel.cs.cmu.edu
+&lt;/pre&gt;
+In your browser on the compute node, set the SOCKS5 proxy to &lt;code&gt;localhost:1080&lt;/code&gt;. Visiting &lt;code&gt;whatismyip.com&lt;/code&gt; shows &lt;code&gt;login1.babel.cs.cmu.edu&lt;/code&gt;’s IP.
+
+== Choosing a Port ==
+* For remote forwarding: Use 9000–9999 on &lt;code&gt;login1.babel.cs.cmu.edu&lt;/code&gt;.
+* For local/dynamic: Ports like 8080 or 1080 are on your node, so they’re flexible.
+* Coordinate with teammates to avoid conflicts on the login node.
+
+== Security Tips ==
+* Remote forwarding exposes your service to anyone hitting the login node’s port—share carefully.
+* Use SSH keys (not passwords) for better security. Ask an admin for setup help.
+* Kill the SSH session (&lt;code&gt;Ctrl+C&lt;/code&gt;) when done.
+
+== Troubleshooting ==
+* '''Remote: “Connection refused”''': Check your service (&lt;code&gt;curl localhost:&lt;port&gt;&lt;/code&gt;) or try another login node port.
+* '''Local: No response''': Ensure the external service is reachable from &lt;code&gt;login1.babel.cs.cmu.edu&lt;/code&gt;.
+* '''Dynamic: Proxy fails''': Confirm your browser’s SOCKS5 settings and that SSH is running.
+* SSH drops? Use &lt;code&gt;-o ServerAliveInterval=60&lt;/code&gt; or &lt;code&gt;autossh&lt;/code&gt;.
+
+== HPC Note ==
+Our NAT is the HPC head node, but you connect via &lt;code&gt;login.babel.cs.cmu.edu&lt;/code&gt; (the login node). You don’t interact with the NAT directly—it’s all handled behind the scenes. Just run the SSH commands from your compute node as shown.
+
+== See Also ==
+* [[SSH|SSH Basics]] – More SSH command info.</text>
+      <sha1>bkcekbsb7x89bmy5icpouovonlbiokh</sha1>
+    </revision>
+  </page>
+</mediawiki>

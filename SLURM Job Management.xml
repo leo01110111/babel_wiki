@@ -1,0 +1,111 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd" version="0.11" xml:lang="en">
+  <siteinfo>
+    <sitename>CMU -- HPC Wiki</sitename>
+    <dbname>mediawiki_2025</dbname>
+    <base>https://wiki.babel.cs.cmu.edu/index.php/Main_Page</base>
+    <generator>MediaWiki 1.44.0</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Project</namespace>
+      <namespace key="5" case="first-letter">Project talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="250" case="first-letter">Page</namespace>
+      <namespace key="251" case="first-letter">Page talk</namespace>
+      <namespace key="252" case="first-letter">Index</namespace>
+      <namespace key="253" case="first-letter">Index talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>SLURM Job Management</title>
+    <ns>0</ns>
+    <id>35</id>
+    <revision>
+      <id>127</id>
+      <parentid>122</parentid>
+      <timestamp>2023-07-18T19:44:34Z</timestamp>
+      <contributor>
+        <ip>71.112.187.138</ip>
+      </contributor>
+      <origin>127</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="1793" sha1="7nusskltdtvpp02roe39f4q4365gvnp" xml:space="preserve">[[Category:Monitoring]]
+[[Category:Slurm]]
+[[Category:Jobs]]
+
+How to list and track job statuses, view job details, cancel or hold jobs, and efficiently control job scheduling and execution within an HPC cluster environment. 
+
+== Information on Jobs ==
+
+To access information about jobs in the cluster, you can use various commands:
+
+List all current jobs for a user:
+ squeue -u &lt;username&gt;
+
+List all running jobs for a user:
+ squeue -u &lt;username&gt; -t RUNNING
+
+List all pending jobs for a user:
+ squeue -u &lt;username&gt; -t PENDING
+
+List priority order of jobs for the current user (you) in a given partition:
+ showq-slurm -o -u -q &lt;partition&gt;
+
+List all current jobs in the shared partition for a user:
+ squeue -u &lt;username&gt; -p shared
+
+List detailed information for a job (useful for troubleshooting):
+ scontrol show jobid -dd &lt;jobid&gt;
+
+List status info for a currently running job:
+ sstat --format=AveCPU,AvePages,AveRSS,AveVMSize,JobID -j &lt;jobid&gt; --allsteps
+
+Once your job has completed, you can get additional information that was not available during the run. This includes run time, memory used, etc.
+
+To get statistics on completed jobs by jobID:
+ sacct -j &lt;jobid&gt; --format=JobID,JobName,MaxRSS,Elapsed
+
+To view the same information for all jobs of a user:
+ sacct -u &lt;username&gt; --format=JobID,JobName,MaxRSS,Elapsed
+
+== Controlling Jobs ==
+
+To cancel one job:
+ scancel &lt;jobid&gt;
+
+To cancel all the jobs for a user:
+ scancel -u &lt;username&gt;
+
+To cancel all the pending jobs for a user:
+ scancel -t PENDING -u &lt;username&gt;
+
+To cancel one or more jobs by name:
+ scancel --name myJobName
+
+To hold a particular job from being scheduled:
+ scontrol hold &lt;jobid&gt;
+
+To release a particular job to be scheduled:
+ scontrol release &lt;jobid&gt;
+
+To requeue (cancel and rerun) a particular job:
+ scontrol requeue &lt;jobid&gt;</text>
+      <sha1>7nusskltdtvpp02roe39f4q4365gvnp</sha1>
+    </revision>
+  </page>
+</mediawiki>

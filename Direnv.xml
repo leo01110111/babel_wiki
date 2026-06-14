@@ -1,0 +1,81 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd" version="0.11" xml:lang="en">
+  <siteinfo>
+    <sitename>CMU -- HPC Wiki</sitename>
+    <dbname>mediawiki_2025</dbname>
+    <base>https://wiki.babel.cs.cmu.edu/index.php/Main_Page</base>
+    <generator>MediaWiki 1.44.0</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Project</namespace>
+      <namespace key="5" case="first-letter">Project talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="250" case="first-letter">Page</namespace>
+      <namespace key="251" case="first-letter">Page talk</namespace>
+      <namespace key="252" case="first-letter">Index</namespace>
+      <namespace key="253" case="first-letter">Index talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Direnv</title>
+    <ns>0</ns>
+    <id>56</id>
+    <revision>
+      <id>324</id>
+      <parentid>322</parentid>
+      <timestamp>2024-10-25T13:14:34Z</timestamp>
+      <contributor>
+        <username>Bboldt</username>
+        <id>17</id>
+      </contributor>
+      <minor/>
+      <comment>Add paraphrase at beginning</comment>
+      <origin>324</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="2322" sha1="nt0a5t37fe9rsf2l080gg9v57946wv8" xml:space="preserve">[[Category:Software Development]]
+[[Category:Tips]]
+[[Category:Tools]]
+
+&lt;code&gt;direnv&lt;/code&gt; is a program that acts like a plugin for your shell. Specifically, "it augments existing shells with a new feature that can load and unload environment variables depending on the current directory."&lt;ref&gt;https://direnv.net/&lt;/ref&gt;
+Beyond environment variables &lt;code&gt;direnv&lt;/code&gt; is useful for automatically loading and unloading any environment that is associated with a particular directory/project.
+Please see [https://direnv.net/] for basic setup and usage of &lt;code&gt;direnv&lt;/code&gt;; it is already installed on &lt;code&gt;babel&lt;/code&gt; servers, so that step can be skipped in setting it up.
+'''NB: Do not create or allow &lt;code&gt;.envrc&lt;/code&gt; files in shared directories; this can cause problem for you and/or other people.'''
+
+
+== Activating conda environments ==
+The primary use case for &lt;code&gt;direnv&lt;/code&gt; on &lt;code&gt;babel&lt;/code&gt; is easy conda environment activation without the need to activate a conda environment in your &lt;code&gt;.bashrc&lt;/code&gt; file, as this can cause your shell to hang when you SSH into the cluster.
+Instead, you can have &lt;code&gt;direnv&lt;/code&gt; activate your conda environment for you when you enter into the directory of the relevant project.
+This doesn't make conda any faster, but it prevents your session from hanging on login.
+Also, it saves you the trouble of having to manually activate and deactivate your conda environments.
+
+As conda environment can be activated by adding the following to &lt;code&gt;~/my_project/.envrc&lt;/code&gt; (for example):
+
+  eval "$(conda shell.bash activate my_environment)"
+
+Make sure to &lt;code&gt;direnv allow&lt;/code&gt; to permit this &lt;code&gt;.envrc&lt;/code&gt; to take effect.
+If you no longer need conda to activate immediately at every login, you can execute:
+
+  conda init --reverse
+
+This will remove the conda-activating code from your &lt;code&gt;~/.bashrc&lt;/code&gt; which can cause the login into hang.
+If your SLURM jobs are no longer able to find your conda environent (i.e., because your &lt;code&gt;~/.bashrc&lt;/code&gt; no longer does any conda stuff), you can run the above &lt;code&gt;eval ...&lt;/code&gt; in your scripts.
+If you are only running a Python program, you can also just run &lt;code&gt;~/miniconda3/env/my_environment/bin/conda&lt;/code&gt; without activating anything (assuming that is where your conda enviornments are).</text>
+      <sha1>nt0a5t37fe9rsf2l080gg9v57946wv8</sha1>
+    </revision>
+  </page>
+</mediawiki>

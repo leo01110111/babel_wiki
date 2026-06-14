@@ -1,0 +1,124 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.11/ http://www.mediawiki.org/xml/export-0.11.xsd" version="0.11" xml:lang="en">
+  <siteinfo>
+    <sitename>CMU -- HPC Wiki</sitename>
+    <dbname>mediawiki_2025</dbname>
+    <base>https://wiki.babel.cs.cmu.edu/index.php/Main_Page</base>
+    <generator>MediaWiki 1.44.0</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Project</namespace>
+      <namespace key="5" case="first-letter">Project talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="250" case="first-letter">Page</namespace>
+      <namespace key="251" case="first-letter">Page talk</namespace>
+      <namespace key="252" case="first-letter">Index</namespace>
+      <namespace key="253" case="first-letter">Index talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Main Page</title>
+    <ns>0</ns>
+    <id>1</id>
+    <revision>
+      <id>419</id>
+      <parentid>333</parentid>
+      <timestamp>2025-02-20T18:37:43Z</timestamp>
+      <contributor>
+        <ip>172.26.65.132</ip>
+      </contributor>
+      <origin>419</origin>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="2347" sha1="1whj92yyscmy2iooz5jtrskrchunhl6" xml:space="preserve">__NOTOC__ __NOEDITSECTION__
+
+'''Welcome to the [https://lti.cs.cmu.edu Language Technologies Institute] HPC Wiki!'''
+
+This wiki provides resources and documentation for the LTI's High-Performance Computing (HPC) clusters, tools, and workflows. Explore the sections below to get started!
+
+== HPC Assets ==
+&lt;div style="float: left; margin-right: 1%; width: 49%;"&gt;
+==== HPC Clusters ====
+; [[BABEL]]
+: Let's not let this one tip over.
+; [[BOSTON]]
+: Info about the Boston cluster.
+&lt;/div&gt;
+&lt;div style="float: left; width: 50%;"&gt;
+==== Babel Sub-groups ====
+; [[CXCSCMU_GroupWiki]]
+: Chenyan Xiong's group pages.
+; [[FLAME]]
+: Notes and walk-throughs related to the FLAME Center nodes.
+&lt;/div&gt;
+&lt;div style="clear: both;"&gt;&lt;/div&gt;
+
+== General ==
+&lt;div style="float: left; margin-right: 1%; width: 49%;"&gt;
+; [[SSH|Connecting to the Cluster]]
+: How to request access, log in, and interact with HPC resources.
+; [[Slurm]]
+: Beginner's guide to the Slurm workload manager—submit, manage, and monitor jobs.
+; [[Monitoring]]
+: Basics of monitoring jobs, compute resources, and disk usage with essential tools.
+&lt;/div&gt;
+&lt;div style="float: left; width: 50%;"&gt;
+; [[HPC Software]]
+: List of software available across all clusters and nodes.
+; [[HPC Terminology]]
+: Overview of common HPC terms and concepts.
+; [[Tips &amp; Tricks]]
+: Useful notes for specific scenarios.
+&lt;/div&gt;
+&lt;div style="clear: both;"&gt;&lt;/div&gt;
+
+== Models and Datasets ==
+&lt;div style="float: left; margin-right: 1%; width: 49%;"&gt;
+; [[ClueWeb]]
+: A large-scale web corpus with billions of pages from the World Wide Web.
+&lt;/div&gt;
+&lt;div style="float: left; width: 50%;"&gt;
+; [[Hugging_Face]]
+: Intro to setting up your environment and using Hugging Face (HF) models and datasets on Babel HPC.
+&lt;/div&gt;
+&lt;div style="clear: both;"&gt;&lt;/div&gt;
+
+== Misc ==
+&lt;div style="float: left; margin-right: 1%; width: 49%;"&gt;
+; [[Efficiency]]
+: Exploring GPU power efficiency—concepts and practical tips.
+&lt;/div&gt;
+&lt;div style="float: left; width: 50%;"&gt;
+; [[Forum etiquette]]
+: Guidelines for forum members.
+&lt;/div&gt;
+&lt;div style="clear: both;"&gt;&lt;/div&gt;
+
+== Help ==
+&lt;div style="float: left; margin-right: 1%; width: 49%;"&gt;
+; [[Help:Searching]]
+: Tips and tricks for effective searching.
+&lt;/div&gt;
+&lt;div style="float: left; width: 50%;"&gt;
+; [[Help:Editing]]
+: Short tutorial on editing and contributing to the wiki.
+&lt;/div&gt;
+&lt;div style="clear: both;"&gt;&lt;/div&gt;</text>
+      <sha1>1whj92yyscmy2iooz5jtrskrchunhl6</sha1>
+    </revision>
+  </page>
+</mediawiki>
