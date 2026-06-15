@@ -21,6 +21,8 @@ This wiki provides resources and documentation for the LTI's High-Performance Co
     How to request access, log in, and interact with HPC resources.
 **[Slurm](Slurm.md)**
     Beginner's guide to the Slurm workload manager—submit, manage, and monitor jobs.
+**[Job Notifications](Job%20Notifications.md)**
+    Get push/email/text alerts when a batch job begins, ends, or fails.
 **[Monitoring](Monitoring.md)**
     Basics of monitoring jobs, compute resources, and disk usage with essential tools.
 **[HPC Software](HPC%20Software.md)**
