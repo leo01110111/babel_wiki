@@ -8,18 +8,14 @@ begins, ends, or fails.
 
 ## Does native SLURM email work on Babel?
 
-**Probably not.** Babel is configured with a mail program but the underlying
-mail binary is missing:
+**Yes — confirmed working** (tested 2026-06-15, job 8356445; the email
+arrived). Babel uses `MailProg = /usr/bin/smail` (a Princeton helper that
+pipes a `seff` report into the message body), and the SLURM controller node
+relays it out fine. Note that `/bin/mail` is missing on the *login* node, so
+you cannot send mail by hand from there — but that does not affect
+`--mail-type`, which runs on the controller.
 
-- `scontrol show config` shows `MailProg = /usr/bin/smail` (a Princeton
-  helper script) and no `MailDomain`.
-- `smail` works by piping a `seff` report into `/bin/mail`. But `/bin/mail`
-  does not exist on the login node, and there is no `mailx` / `sendmail` /
-  `postfix` / outbound relay anywhere on `PATH`.
-- Result: `--mail-type` events fire but almost certainly deliver nothing.
-
-Before relying on native email, send yourself a test and confirm it actually
-arrives (check spam too):
+To sanity-check delivery on your own account (check spam too):
 
 ```bash
 sbatch --partition=debug --gres=gpu:1 --time=00:01:00 \
@@ -27,10 +23,7 @@ sbatch --partition=debug --gres=gpu:1 --time=00:01:00 \
        --wrap="echo test; sleep 10"
 ```
 
-If the message lands, native mail works for you and the directives below are
-all you need. If it doesn't, use the webhook method instead.
-
-## Method 1: native SLURM email (only if test delivery confirmed)
+## Method 1: native SLURM email (recommended — confirmed working)
 
 Add to your sbatch script:
 
@@ -44,18 +37,19 @@ Add to your sbatch script:
 
 ## Method 2: text message via email-to-SMS gateway
 
-Only works if native mail works. Mail your carrier's gateway instead of an
-inbox:
+Since native mail works, you can get a **text** by mailing your carrier's
+gateway instead of an inbox:
 
 ```bash
 #SBATCH --mail-user=5551234567@vtext.com   # Verizon
 # AT&T: @txt.att.net   T-Mobile: @tmomail.net
 ```
 
-## Method 3: webhook push (recommended — independent of cluster mail)
+## Method 3: webhook push (alternative — phone push notifications)
 
-Compute nodes have outbound HTTPS, so a `curl` to a push service such as
-[ntfy.sh](https://ntfy.sh) works regardless of the broken mail setup.
+If you prefer a phone push instead of email, compute nodes have outbound
+HTTPS, so a `curl` to a push service such as [ntfy.sh](https://ntfy.sh)
+works.
 Subscribe once in the ntfy phone app (or at `https://ntfy.sh/<your-topic>`),
 then append a notify block to the **end** of your sbatch script:
 
