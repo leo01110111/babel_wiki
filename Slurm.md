@@ -311,8 +311,8 @@ This helps manage resource usage and avoid job contention.
 ## Slurm Partitions Overview
 
 ### Debug
-- **Default Time:** 00:30:00
-- **Max Time:** 02:00:00
+- **Default Time:** 01:00:00
+- **Max Time:** 12:00:00
 - **Priority Job Factor:** 8000
 
 ### General
